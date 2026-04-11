@@ -1,5 +1,4 @@
-include <../../global_libraries/polyhedra.scad>
-
+// In Revision
 
 module block_frame(dimensions=[3,3],
             do_nut_pockets = true,

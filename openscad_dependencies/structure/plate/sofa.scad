@@ -1,4 +1,4 @@
-include <../../global_libraries/polyhedra.scad>
+// In Revision
 
 module sofa(dimensions=[3,3,3], plate_thickness=2.5, chamfer_depth=1.0,hole_diameter=3.2,hole_faces=15){
     

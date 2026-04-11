@@ -1,6 +1,26 @@
+// In Revision
 include <cloverCam.scad>
 
-module cloverToeStrut(overall_length, baseRadiusAddendum = -0.3){
+// ============================================================================
+// STRUT - INTERMEDIATE MODULE
+// ============================================================================
+// Internal module used by truss_set() to generate leg and hyp struts.
+// Do not call directly - use truss_set() instead.
+// Parameters are passed from truss_set() to ensure all dimensions align.
+// ============================================================================
+
+module strut(
+    overall_length,
+    baseRadiusAddendum=-0.3,
+    strut_body_width=12,
+    strut_thickness=3.5,
+    strut_legs_width=8,
+    strut_toes_width=5,
+    connection_depth=2,
+    leg_separation=2,
+    leg_separation_depth=1,
+    cylinder_faces=50
+){
     module strutEnd(){ //a repeated intermediate step consisting of full cylinder form of t end
        
             //bottom contact cylinder
@@ -36,7 +56,18 @@ module cloverToeStrut(overall_length, baseRadiusAddendum = -0.3){
     }
 }
 
-module cylinderToeStrut(overall_length){
+// Alternative strut version with simpler toe geometry (not currently used)
+module cylinderToeStrut(
+    overall_length,
+    strut_body_width=12,
+    strut_thickness=3.5,
+    strut_legs_width=8,
+    strut_toes_width=5,
+    connection_depth=2,
+    leg_separation=2,
+    leg_separation_depth=1,
+    cylinder_faces=50
+){
     module strutEnd(){ //a repeated intermediate step consisting of full cylinder form of t end
        
             //bottom contact cylinder
@@ -67,11 +98,3 @@ module cylinderToeStrut(overall_length){
     }
 }
 
-module leg_strut(){
-    rotate(90,[1,0,0])
-    cloverToeStrut(leg_strut_length);
-}
-module hyp_strut(){
-    rotate(90,[1,0,0])
-    cloverToeStrut(hyp_strut_length);
-}

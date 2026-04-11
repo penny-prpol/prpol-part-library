@@ -1,3 +1,4 @@
+// In Revision
 module cloverCam(baseRadius, baseRadiusAddendum, camFactor, height, pointCount){
     //the average radius of the connection cam shape is the strut end radius plus a small clearance addendum.
     finalBaseRadius = baseRadius + baseRadiusAddendum;

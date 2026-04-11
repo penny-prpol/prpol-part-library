@@ -1,12 +1,25 @@
-
-include <../../global_libraries/polyhedra.scad>
+// In Revision
 include <conshaft.scad>
 
+// ============================================================================
+// HUB - INTERMEDIATE MODULE
+// ============================================================================
+// Internal module used by truss_set() to generate hub components.
+// Do not call directly - use truss_set() instead.
+// Parameters are passed from truss_set() to ensure consistency.
+// ============================================================================
 
 module hub(
-  do_nut_pockets = true,
-  nut_thickness = 2.6,
-  nut_width = 5.7
+  do_nut_pockets=true,
+  nut_thickness=2.6,
+  nut_width=5.7,
+  cube_width=20,
+  connection_depth=2,
+  strut_legs_width=8,
+  slop=0.2,
+  strut_toes_width=5,
+  cylinder_faces=50,
+  strut_thickness=3.5
 ){
   nut_circumscribed_diameter = nut_width / cos(30);
   difference(){
@@ -19,22 +32,55 @@ module hub(
       rotate(i, [0, 1, 0])
       rotate(90, [0, 0, 1])
       if(i == 0 || i == 180){
-        conshaft(topOrBottom = true);
+        conshaft(
+          topOrBottom=true,
+          cube_width=cube_width,
+          connection_depth=connection_depth,
+          strut_legs_width=strut_legs_width,
+          slop=slop,
+          strut_toes_width=strut_toes_width,
+          cylinder_faces=cylinder_faces,
+          strut_thickness=strut_thickness
+        );
       } else {
-        conshaft();
+        conshaft(
+          cube_width=cube_width,
+          connection_depth=connection_depth,
+          strut_legs_width=strut_legs_width,
+          slop=slop,
+          strut_toes_width=strut_toes_width,
+          cylinder_faces=cylinder_faces,
+          strut_thickness=strut_thickness
+        );
       }
       
     }
 
     for (i = [45, 90, 135, 225, 270, 315]) {
       rotate(i, [1, 0, 0])
-      conshaft();
+      conshaft(
+        cube_width=cube_width,
+        connection_depth=connection_depth,
+        strut_legs_width=strut_legs_width,
+        slop=slop,
+        strut_toes_width=strut_toes_width,
+        cylinder_faces=cylinder_faces,
+        strut_thickness=strut_thickness
+      );
     }
     for (i = [45, 135, 225, 315]) {
       rotate(i, [0, 0, 1])
       rotate(90, [0, 1, 0])
       rotate(90, [0, 0, 1])
-      conshaft();
+      conshaft(
+        cube_width=cube_width,
+        connection_depth=connection_depth,
+        strut_legs_width=strut_legs_width,
+        slop=slop,
+        strut_toes_width=strut_toes_width,
+        cylinder_faces=cylinder_faces,
+        strut_thickness=strut_thickness
+      );
     }
 
     //bottom ceiling arch sphere
