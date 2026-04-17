@@ -3,8 +3,8 @@
 
 module 18650x2_elegoo_mount(
     plate_thickness = 2.5,
-    plate_length = 11,
-    plate_width = 5,
+    plate_length = 11, //Robot Core Default
+    plate_width = 6, //Robot Core Default
     grid_hole_diameter = 3.3,
     box_length = 89.15,
     box_width = 41.79

@@ -111,35 +111,17 @@ module sinusoid_marble_track(
     );
    
     //generate the thing
-    //trail = [[0,0,0],[50,0,0]];
-    trail = [
-        for (i = [0 : 1 : 100])
-        [i , 0 , 0]
-    ];
-
-    spinjitsu = [
-        for (i = [0 : 1 : 100])
-        180 + i
-    ];
-
-    fly_right = [
-        for (i = [0:720])
-        140 + i * 0.1876
-    ];
-
-    critter_trail = [
-        for (i = [0:720])
-        [30 * cos(i), 30 * sin(i), i / 10]
-    ];
-
-    straight_path = [[50,0,0],[50,300,25]];
+   
     sinusoid_path = [
-        for(i = [0:300])
-        [60 - 10 * cos(4 * (i / 300) * 360),
-        i,
-        25 * (i / 300)]
+        [50,-300,-25],
+        for(i = [0:200])
+        [60 - 10 * cos(4 * (i / 200) * 360),
+        i / 200 * 300,
+        25 * (i / 200)],
+        [50,600,50]
     ];
-
+    
+    difference(){
    union(){
         //first support arm
         difference(){
@@ -234,7 +216,16 @@ module sinusoid_marble_track(
         //the marble track
         path_extrude(exPath = sinusoid_path, exShape = polypoints, exRots = [180]);
    }
+   translate([0,300,25])
+    rotate(4.76,[1,0,0])
+    translate([0,0,-1])
+    cube([600,600,600]);
 
+
+    rotate(4.76,[1,0,0])
+    translate([0,-600,-1])
+    cube([600,600,600]);
+    }
     
 }
 
