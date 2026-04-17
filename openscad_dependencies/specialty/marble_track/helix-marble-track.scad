@@ -68,6 +68,7 @@ module helix_marble_track(
     //   tangent must be proportional to [0, 100, 5] (slope = 5/100 = 1/20)
     //   => 90 / (2*PI*N*r) = 1/20  =>  r = 900 / (PI * N)
     num_turns = 4;  // integer; controls tightness vs radius
+    helix_steps = 500;  // number of segments in the helix; increase for smoother output
     helix_radius = 900 / (PI * num_turns);  // ≈ 71.6 mm for N=4
     helix_center_x = 20 + helix_radius;
     pitch = 90 / num_turns;  // z-rise per full turn (total helix z-rise = 90)
@@ -76,12 +77,12 @@ module helix_marble_track(
     // derived from: tau (radians/arc-length) * arc-length/degree * (180/pi)
     omega = p_rad / sqrt(helix_radius * helix_radius + p_rad * p_rad);
     helix_path = [
-        for (i = [1 : 99])              // exclude endpoints; starting_segment and ending_segment supply them
-        let (t = i / 100 * 360 * num_turns)  // t in degrees, 0..360*N
+        for (i = [1 : helix_steps - 1])    // exclude endpoints; starting_segment and ending_segment supply them
+        let (t = i / helix_steps * 360 * num_turns)  // t in degrees, 0..360*N
         [
             helix_center_x - helix_radius * cos(t),  // x: starts at 20, curves right
             100 + helix_radius * sin(t),              // y: starts at 100, loops forward
-            5 + (i / 100) * 90                       // z: linear rise from 5 to 95
+            5 + (i / helix_steps) * 90               // z: linear rise from 5 to 95
         ]
     ];
 
@@ -89,8 +90,8 @@ module helix_marble_track(
 
     rotation_plan = [
         180,
-        for (i = [1 : 102])
-        let (t = i / 100 * 360 * num_turns)
+        for (i = [1 : helix_steps + 2])  // helix_steps+3 entries total = full_path length
+        let (t = i / helix_steps * 360 * num_turns)
         180 - t * omega,  // counter-rotate by accumulated torsion
         
     ];
