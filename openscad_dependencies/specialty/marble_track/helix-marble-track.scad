@@ -59,8 +59,17 @@ module helix_marble_track(
 
     testriangle = [[-2,0],[0,2],[2,0]];
 
-    starting_segment = [[20,0,0],[20,100,5]];
-    ending_segment = [[20,100,95],[20,200,100]];
+    straight_steps = 20;  // points per straight transitional section; controls banking ramp smoothness
+
+    starting_path = [
+        for (j = [0 : straight_steps])
+        [20, j / straight_steps * 100, j / straight_steps * 5]
+    ];
+
+    ending_path = [
+        for (j = [0 : straight_steps])
+        [20, 100 + j / straight_steps * 100, 95 + j / straight_steps * 5]
+    ];
 
     // Helix connecting [20,100,5] to [20,100,95].
     // Center is at (20 + helix_radius, 100) so the spiral curves rightward (+x) first.
@@ -86,21 +95,68 @@ module helix_marble_track(
         ]
     ];
 
-    full_path = concat(starting_segment, helix_path, ending_segment);
+    full_path = concat(starting_path, helix_path, ending_path);
 
-    rotation_plan = [
-        180,
-        for (i = [1 : helix_steps + 2])  // helix_steps+3 entries total = full_path length
-        let (t = i / helix_steps * 360 * num_turns)
-        180 - t * omega,  // counter-rotate by accumulated torsion
-        
-    ];
+    // rotation at end of helix after full torsion correction; starting point for ending ramp
+    helix_end_rot = 200 - 360 * num_turns * omega;
+
+    rotation_plan = concat(
+        // starting straight: ramp from 180 (endpoint) to 200 (helix entry)
+        [for (j = [0 : straight_steps]) 180 + (j / straight_steps) * 20],
+        // helix: baseline 200, counter-rotated by accumulated torsion
+        [for (i = [1 : helix_steps - 1])
+            let (t = i / helix_steps * 360 * num_turns)
+            200 - t * omega],
+        // ending straight: ramp from helix_end_rot back to flat (un-bank by 20 degrees)
+        [for (j = [0 : straight_steps])
+            helix_end_rot + (j / straight_steps) * (-20)]
+    );
    union(){
        
         
         //the marble track
         path_extrude(exPath = full_path, exShape = polypoints, exRots = rotation_plan);
    }
+
+    // connection and rigidity 
+
+    translate([0,50,0])
+    difference(){
+        translate([0,-10,-10])
+        cube([4,20,20]);
+
+        rotate(90,[0,1,0])
+        cylinder(h=15, d=3.3, center=true, $fn=20);
+    }
+
+     translate([0,50,-100])
+    difference(){
+        translate([0,-10,-10])
+        cube([4,20,20]);
+
+        rotate(90,[0,1,0])
+        cylinder(h=15, d=3.3, center=true, $fn=20);
+    }
+
+    translate([0,150,0])
+    difference(){
+        translate([0,-10,-10])
+        cube([4,20,20]);
+
+        rotate(90,[0,1,0])
+        cylinder(h=15, d=3.3, center=true, $fn=20);
+    }
+
+    translate([0,150,-100])
+    difference(){
+        translate([0,-10,-10])
+        cube([4,20,20]);
+
+        rotate(90,[0,1,0])
+        cylinder(h=15, d=3.3, center=true, $fn=20);
+    }
+    
+    
 
     
 }
