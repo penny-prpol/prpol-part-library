@@ -7,7 +7,9 @@ module cloverCam(baseRadius, baseRadiusAddendum, camFactor, height, pointCount){
     //we convert to cartesian coordinates using x = r*cos(theta), y = r*sin(theta)
     function cartesianPair(theta) = [calcRadius(theta)*cos(theta),calcRadius(theta)*sin(theta)];
     //points is an array of xy coordinate pairs, used to make the polygon for the connection cam shape.
-    points = [for (a = [0: 360 / pointCount : 360-(360 / pointCount)]) cartesianPair(a)];
+    // In preview mode, use fewer points for faster display
+    previewPointCount = $preview ? min(pointCount, 20) : pointCount;
+    points = [for (a = [0: 360 / previewPointCount : 360-(360 / previewPointCount)]) cartesianPair(a)];
 
     linear_extrude(height=height, convexity=2)polygon(points);
 }

@@ -1,0 +1,8 @@
+# Generated renders
+out.png
+
+# Assemblies (website / image-generation only, not part of the library)
+openscad_dependencies/lib/assemblies/
+
+# Development tools
+devtools/

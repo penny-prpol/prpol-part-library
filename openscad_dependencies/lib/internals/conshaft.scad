@@ -1,5 +1,5 @@
 // In Revision
-include <cloverCam.scad>
+
 
 // ============================================================================
 // CONSHAFT - INTERMEDIATE MODULE
@@ -22,12 +22,12 @@ module conshaft(
     topOrBottom=false,
     topOrBottomAddendum=0.2,
     cube_width=20,
-    connection_depth=2,
-    strut_legs_width=8,
-    slop=0.2,
-    strut_toes_width=5,
-    cylinder_faces=50,
-    strut_thickness=3.5
+    connection_depth=3,
+    strut_legs_width=4,
+    slop=0.3,
+    strut_toes_width=5.7,
+    cylinder_faces=40,
+    strut_thickness=3
 ) {
 
     

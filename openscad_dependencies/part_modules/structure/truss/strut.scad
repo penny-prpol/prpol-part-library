@@ -1,5 +1,5 @@
 // In Revision
-include <cloverCam.scad>
+include <../../../lib/internals/cloverCam.scad>
 
 // ============================================================================
 // STRUT - INTERMEDIATE MODULE

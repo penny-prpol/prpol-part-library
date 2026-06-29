@@ -8,4 +8,5 @@
 include <strut.scad>
 include <hub.scad>
 include <truss-set.scad>
+include <truss_panels/truss-panels-header.scad>
 

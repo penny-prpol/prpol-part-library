@@ -1,5 +1,5 @@
 // In Revision
-include <conshaft.scad>
+
 
 // ============================================================================
 // HUB - INTERMEDIATE MODULE
@@ -14,16 +14,39 @@ module hub(
   nut_thickness=2.6,
   nut_width=5.7,
   cube_width=20,
-  connection_depth=2,
-  strut_legs_width=8,
-  slop=0.2,
-  strut_toes_width=5,
-  cylinder_faces=50,
-  strut_thickness=3.5
+  connection_depth=3,
+  strut_legs_width=4,
+  slop=0.3,
+  strut_toes_width=5.7,
+  cylinder_faces=40,
+  strut_thickness=3
+){
+  // In preview (F5), render the entire hub into a single cached polyhedron
+  // to avoid the CSG normalizer hitting the 200K element limit from the
+  // deeply nested difference() with 18+ conshaft subtractions.
+  if ($preview) {
+    render()
+    _hub_geometry(
+      do_nut_pockets, nut_thickness, nut_width, cube_width,
+      connection_depth, strut_legs_width, slop, strut_toes_width,
+      cylinder_faces, strut_thickness
+    );
+  } else {
+    _hub_geometry(
+      do_nut_pockets, nut_thickness, nut_width, cube_width,
+      connection_depth, strut_legs_width, slop, strut_toes_width,
+      cylinder_faces, strut_thickness
+    );
+  }
+}
+
+module _hub_geometry(
+  do_nut_pockets, nut_thickness, nut_width, cube_width,
+  connection_depth, strut_legs_width, slop, strut_toes_width,
+  cylinder_faces, strut_thickness
 ){
   nut_circumscribed_diameter = nut_width / cos(30);
   difference(){
-    //starting cube
     translate([-10,-10,-10])
     chamferCube(dimensions=[20,20,20], chamfer_depth=5.857);
 

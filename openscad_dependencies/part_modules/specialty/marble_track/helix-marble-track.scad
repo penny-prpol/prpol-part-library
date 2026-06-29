@@ -8,7 +8,8 @@ module helix_marble_track(
     num_turns = 4,
     cup_wall = 4,
     cup_height = 8,
-    cup_floor = 4
+    cup_floor = 4,
+    mirrored = false
 ){
     inner_radius = inner_diameter / 2;
     outer_diameter = inner_diameter + (2 * wall_thickness);
@@ -122,6 +123,7 @@ module helix_marble_track(
     left_angle  = atan2((50 + 10 - 2) - 100, 2 - helix_center_x);   // toward y=58
     right_angle = atan2((150 - 10 + 2) - 100, 2 - helix_center_x);  // toward y=142
 
+    scale([1, mirrored ? -1 : 1, 1])
     union(){
 
         // ── piece 1: track body ───────────────────────────────────────────────
