@@ -1,0 +1,47 @@
+ACKNOWLEDGMENTS
+===============
+
+PRPOL gratefully uses the following third-party OpenSCAD libraries.
+Thank you to each author for sharing their work with the community.
+
+— The PRPOL team, July 2026
+
+Gears Library (Getriebe.scad)
+─────────────────────────────
+  Author  : Dr Jörg Janssen (janssen86)
+  Version : 2.3 (29 October 2018)
+  Source  : https://www.thingiverse.com/thing:1604369
+  License : Creative Commons — Attribution, Non Commercial, Share Alike
+            http://creativecommons.org/licenses/by-nc-sa/3.0/
+
+  Provides the mathematical foundation for involute spur gears,
+  herringbone gears, bevel gears, worms, racks, and planetary
+  gearboxes.  The English wrapper (gears.scad) is built on top
+  of this library.
+
+
+Threads Library (threads.scad)
+──────────────────────────────
+  Author  : Ryan A. Colyer
+  Version : 2.1 (2016–2017)
+  Source  : https://www.thingiverse.com/thing:1686322
+  License : CC0 (public domain)
+            https://creativecommons.org/publicdomain/zero/1.0/
+
+  Provides standard metric thread profiles and helical sweep
+  routines used throughout PRPOL's threaded parts.
+
+
+Extrude Along Path (path_extrude.scad)
+──────────────────────────────────────
+  Author  : David Eccles (gringer)
+  Years   : 2014–2019
+  Source  : https://www.thingiverse.com/thing:186660
+  License : CC BY-SA 4.0
+            https://creativecommons.org/licenses/by-sa/4.0/
+
+  Provides the path_extrude() module used for sweeping
+  arbitrary 2D profiles along 3D paths.
+
+
+— The PRPOL team, July 2026

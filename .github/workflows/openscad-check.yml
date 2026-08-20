@@ -1,0 +1,48 @@
+name: OpenSCAD check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install OpenSCAD
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openscad
+
+      - name: Parse every library file
+        run: |
+          failed=""
+          while IFS= read -r file; do
+            # OpenSCAD exits 1 when the top-level object is empty, which is
+            # expected here (module definitions only), so judge by ERROR
+            # lines instead of the exit code.
+            openscad --export-format=stl -o /tmp/prpol_check.stl "$file" \
+              >/tmp/prpol_stdout.txt 2>/tmp/prpol_stderr.txt || true
+            if grep -q 'ERROR:' /tmp/prpol_stderr.txt; then
+              echo "FAIL $file"
+              cat /tmp/prpol_stderr.txt
+              failed="$failed $file"
+            else
+              echo "OK   $file"
+            fi
+          done < <(find lib -name '*.scad' | sort)
+          if [ -n "$failed" ]; then
+            echo "Files that failed to parse:$failed"
+            exit 1
+          fi
+
+      - name: Parse full library header
+        run: |
+          openscad --export-format=stl -o /tmp/prpol_full.stl prpol-header.scad \
+            >/tmp/prpol_full_out.txt 2>/tmp/prpol_full_err.txt || true
+          if grep -q 'ERROR:' /tmp/prpol_full_err.txt; then
+            cat /tmp/prpol_full_err.txt
+            exit 1
+          fi

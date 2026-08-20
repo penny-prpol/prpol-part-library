@@ -1,0 +1,153 @@
+// In Revision
+
+
+// ============================================================================
+// HUB - USER-FACING MODULE
+// ============================================================================
+// The everyday entry point for generating a hub. Canonical dimensions come
+// from truss_canon(); the only thing to adjust here is nut pockets.
+// ============================================================================
+
+module hub(do_nut_pockets=true){
+  truss_canon(
+    do_nut_pockets=do_nut_pockets,
+    generate_hub=true
+  );
+}
+
+// ============================================================================
+// ABSTRACT_HUB - INTERMEDIATE MODULE
+// ============================================================================
+// Internal module used by truss_canon() to generate hub components.
+// Do not call directly - use truss_canon() or the hub() wrapper above.
+// All parameters are required - canonical defaults live in truss_canon() alone.
+// ============================================================================
+
+module abstract_hub(
+  do_nut_pockets,
+  nut_thickness,
+  nut_width,
+  cube_width,
+  connection_depth,
+  strut_legs_width,
+  slop,
+  strut_toes_width,
+  cylinder_faces,
+  strut_thickness
+){
+  // In preview (F5), render the entire hub into a single cached polyhedron
+  // to avoid the CSG normalizer hitting the 200K element limit from the
+  // deeply nested difference() with 18+ truss_connection_pocket subtractions.
+  if ($preview) {
+    render()
+    _hub_geometry(
+      do_nut_pockets, nut_thickness, nut_width, cube_width,
+      connection_depth, strut_legs_width, slop, strut_toes_width,
+      cylinder_faces, strut_thickness
+    );
+  } else {
+    _hub_geometry(
+      do_nut_pockets, nut_thickness, nut_width, cube_width,
+      connection_depth, strut_legs_width, slop, strut_toes_width,
+      cylinder_faces, strut_thickness
+    );
+  }
+}
+
+module _hub_geometry(
+  do_nut_pockets, nut_thickness, nut_width, cube_width,
+  connection_depth, strut_legs_width, slop, strut_toes_width,
+  cylinder_faces, strut_thickness
+){
+  nut_circumscribed_diameter = nut_width / cos(30);
+  difference(){
+    translate([-10,-10,-10])
+    global_chamfer_cube(dimensions=[20,20,20], chamfer_depth=5.857);
+
+    //cutting connection shafts
+    for (i = [0: 45: 315]) {
+      rotate(i, [0, 1, 0])
+      rotate(90, [0, 0, 1])
+      if(i == 0 || i == 180){
+        truss_connection_pocket(
+          top_or_bottom=true,
+          cube_width=cube_width,
+          connection_depth=connection_depth,
+          strut_legs_width=strut_legs_width,
+          slop=slop,
+          strut_toes_width=strut_toes_width,
+          cylinder_faces=cylinder_faces,
+          strut_thickness=strut_thickness
+        );
+      } else {
+        truss_connection_pocket(
+          cube_width=cube_width,
+          connection_depth=connection_depth,
+          strut_legs_width=strut_legs_width,
+          slop=slop,
+          strut_toes_width=strut_toes_width,
+          cylinder_faces=cylinder_faces,
+          strut_thickness=strut_thickness
+        );
+      }
+      
+    }
+
+    for (i = [45, 90, 135, 225, 270, 315]) {
+      rotate(i, [1, 0, 0])
+      truss_connection_pocket(
+        cube_width=cube_width,
+        connection_depth=connection_depth,
+        strut_legs_width=strut_legs_width,
+        slop=slop,
+        strut_toes_width=strut_toes_width,
+        cylinder_faces=cylinder_faces,
+        strut_thickness=strut_thickness
+      );
+    }
+    for (i = [45, 135, 225, 315]) {
+      rotate(i, [0, 0, 1])
+      rotate(90, [0, 1, 0])
+      rotate(90, [0, 0, 1])
+      truss_connection_pocket(
+        cube_width=cube_width,
+        connection_depth=connection_depth,
+        strut_legs_width=strut_legs_width,
+        slop=slop,
+        strut_toes_width=strut_toes_width,
+        cylinder_faces=cylinder_faces,
+        strut_thickness=strut_thickness
+      );
+    }
+
+    //bottom ceiling arch sphere
+    translate([0,0,-7])sphere(d=4,$fn=50);
+
+    //if do_nut_pockets is set to true, cut the nut pockets
+    if(do_nut_pockets == true){
+      for(i = [0,1,2,3]){ //the four "equatorial" nut pockets
+        rotate(90*i,[0,0,1])
+        translate([-nut_thickness/2 + 10 - 3 - 1, 0, 0])
+        cube([nut_thickness,nut_width,nut_circumscribed_diameter], center=true);
+      }
+      //the two "polar" nut pockets (top and bottom)
+      translate([0,0,-nut_thickness + 10 - 3 - 1])
+      cylinder(d=6.6,h=nut_thickness,$fn=6);
+
+      translate([0,0,-10 + 3 + 1])
+      cylinder(d=6.6,h=nut_thickness,$fn=6);
+
+      //the cylindrical screw shafts
+      cylinder(h=30,d=3.3,$fn=20, center=true);
+
+      rotate(90,[1,0,0])
+      cylinder(h=30,d=3.3,$fn=20, center=true);
+
+      rotate(90,[0,1,0])
+      cylinder(h=30,d=3.3,$fn=20, center=true);
+    }
+  }
+}
+
+
+

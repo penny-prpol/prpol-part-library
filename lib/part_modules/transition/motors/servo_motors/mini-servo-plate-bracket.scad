@@ -1,0 +1,62 @@
+// Mini servo plate bracket.
+//
+// Grid plate that mounts a mini servo to the PRPOL grid (defaults to a
+// 4x4 plate), without the gear slot of mini-servo-gear-bracket.
+
+module mini_servo_plate_bracket(
+    grid_columns = 4,
+    grid_rows = 4,
+    plate_thickness = 5,
+    screw_spacing = 27.5, // center-to-center distance between servo mounting holes
+    axle_position = 8.25, // distance from the servo output axis to the center of
+                          // the nearest mounting hole, aligned to the part grid
+    servo_box_width = 12.11,
+    servo_box_length = 22.53,
+    mount_hole_diameter = 2.1,
+    grid_hole_diameter = 3.2,
+    axle_grid_column = 3,
+    axle_grid_row = 2
+){
+    $fn = 15;
+
+    cutout_width = servo_box_width + 1;
+    cutout_length = servo_box_length + 1;
+
+    axle_x_position = (axle_grid_column * 10) - 5;
+    axle_y_position = (axle_grid_row * 10) - 5;
+
+    difference(){
+        union(){
+            cube([grid_columns*10, grid_rows*10, plate_thickness]);
+            translate([0, 20, 0]) cube([40, 20, 20]);
+        }
+
+        for (i = [0:1]) {
+            translate([5+i*10*(grid_columns-1), 0, 15])
+            rotate(90, [1,0,0])
+            cylinder(h=200, d=grid_hole_diameter, center=true);
+        }
+
+        translate([axle_x_position, axle_y_position, 0]){
+            translate([axle_position, 0, 0]){
+                cylinder(d=mount_hole_diameter, h=100, center=true);
+            }
+            translate([axle_position - screw_spacing, 0, 0]){
+                cylinder(d=mount_hole_diameter, h=100, center=true);
+            }
+            translate([axle_position - (screw_spacing/2), 0, 0]){
+                cube([cutout_length, cutout_width, 100], center=true);
+            }
+        }
+
+        for (i = [0:grid_columns-1]){
+            for (j = [0:grid_rows-1]){
+                if (!(((i==((axle_x_position-5)/10)-2) && (j==(axle_y_position-5)/10)) || ((i==((axle_x_position-5)/10)+1) && (j==(axle_y_position-5)/10)))){
+                    translate([5+i*10, 5+j*10, 0]){
+                        cylinder(d=grid_hole_diameter, h=100, center=true);
+                    }
+                }
+            }
+        }
+    }
+}
