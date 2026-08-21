@@ -12,47 +12,41 @@ module flat_angle(
 {
     // L-shaped flat bracket with holes along the length
     // angle: the angle between the two arms (in degrees)
-    // length1: length of the first arm (in mm)
-    // length2: length of the second arm (in mm)
+    // length1: length of the first arm (in units)
+    // length2: length of the second arm (in units)
     $fn = 30;
-    cylinder_height = plate_thickness - (2 * chamfer_depth);
-    cylinder_diameter = 10 - (2 * chamfer_depth);
 
     difference(){
-        minkowski(){
-            union(){ //pre-minkowski main body
-                hull(){
-                    //center cylinder
-                    cylinder(h = cylinder_height, d = cylinder_diameter);
+        union(){
+            hull(){
+                //center cylinder
+                global_chamfer_cylinder(d = 10, h = plate_thickness, chamfer_depth = chamfer_depth);
 
-                    //x axis cylinder
-                    translate([(length1 - 1) * 10, 0 , 0])
-                    cylinder(h = cylinder_height, d = cylinder_diameter);
-                }
-                hull(){
-                    //center cylinder
-                    
-                    cylinder(h = cylinder_height, d = cylinder_diameter);
-
-                    //radially placed cylinder
-                    translate(
-                        [(length2 - 1) * 10 * cos(angle),
-                        (length2 - 1) * 10 * sin(angle),
-                        0]
-                    )
-                    cylinder(h = cylinder_height, d = cylinder_diameter);
-                }
+                //x axis end cylinder
+                translate([(length1 - 1) * 10, 0 , 0])
+                global_chamfer_cylinder(d = 10, h = plate_thickness, chamfer_depth = chamfer_depth);
             }
-            global_octahedron(chamfer_depth); //chamfer-generating minkowski addition body
+            hull(){
+                //center cylinder
+                global_chamfer_cylinder(d = 10, h = plate_thickness, chamfer_depth = chamfer_depth);
+
+                //radially placed end cylinder
+                translate(
+                    [(length2 - 1) * 10 * cos(angle),
+                    (length2 - 1) * 10 * sin(angle),
+                    0]
+                )
+                global_chamfer_cylinder(d = 10, h = plate_thickness, chamfer_depth = chamfer_depth);
+            }
         }
         //center hole
         translate([0,0, -1 * plate_thickness]) 
-        cylinder(d =  hole_diameter, h = plate_thickness * 3);
+        cylinder(d =  hole_diameter, h = plate_thickness * 3, $fn = hole_faces);
 
         //holes along x axis
         for(i = [1 : length1 - 1]){
             translate([10 * i, 0 , -1 * plate_thickness])
-            cylinder(d =  hole_diameter, h = plate_thickness * 3);
+            cylinder(d =  hole_diameter, h = plate_thickness * 3, $fn = hole_faces);
         }
 
         //holes along radial arm
@@ -62,7 +56,7 @@ module flat_angle(
                 10 * i * sin(angle),
                 -1 * plate_thickness]
             )
-            cylinder(d =  hole_diameter, h = plate_thickness * 3);
+            cylinder(d =  hole_diameter, h = plate_thickness * 3, $fn = hole_faces);
 
         }
         

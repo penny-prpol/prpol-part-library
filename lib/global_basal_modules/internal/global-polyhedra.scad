@@ -75,3 +75,25 @@ module global_chamfering_pyramid(base = 10) {
     rotate([0, 0, 45])
         cylinder(d1 = base * sqrt(2), d2 = 0, h = base / 2, $fn = 4);
 }
+
+// Bicone: two right cones joined at their common base, centered at the origin.
+// Each cone's height equals the base radius, so both slopes are 45 degrees.
+// This is the rotational counterpart of global_octahedron(): where the
+// octahedron chamfers the edges of cubes via minkowski, the bicone chamfers
+// the circular rims of cylinders.
+module global_bicone(base_radius = 1){
+    cylinder(d1 = 2*base_radius, d2 = 0, h = base_radius);
+    mirror([0, 0, 1])
+    cylinder(d1 = 2*base_radius, d2 = 0, h = base_radius);
+}
+
+// Chamfered cylinder: 45-degree chamfers on both circular rims, produced by a
+// minkowski sum with global_bicone() — the same pattern global_chamfer_cube()
+// uses with global_octahedron().
+module global_chamfer_cylinder(d = 10, h = 10, chamfer_depth = 1){
+    translate([0, 0, chamfer_depth])
+    minkowski(){
+        cylinder(d = d - 2*chamfer_depth, h = h - 2*chamfer_depth);
+        global_bicone(base_radius = chamfer_depth);
+    }
+}

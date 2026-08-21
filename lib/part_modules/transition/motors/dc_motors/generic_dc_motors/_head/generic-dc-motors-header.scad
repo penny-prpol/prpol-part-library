@@ -1,1 +1,1 @@
-include <dc_motor_130/_head/dc-motor-130-header.scad>
+include <../dc_motor_130/_head/dc-motor-130-header.scad>

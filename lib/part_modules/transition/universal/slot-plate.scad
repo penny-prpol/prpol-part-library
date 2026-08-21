@@ -1,5 +1,5 @@
 // Not Yet Productive
-// Universal Mount Plate — General-purpose electronics mounting plate
+// Slot Plate — General-purpose electronics mounting plate
 //
 // A Robot Core Stack plate with alternating horizontal/vertical slots
 // for continuous adjustment when mounting arbitrary circuit boards,
@@ -12,7 +12,7 @@
 //   - Circuit board mounting (Arduino, ESP32, etc.)
 //   - Motor driver board mounting
 
-module universal_mount_plate(
+module slot_plate(
     plate_thickness = 5,
     plate_length = 11,          // Robot Core Default (units)
     plate_width = 6,            // Robot Core Default (units)

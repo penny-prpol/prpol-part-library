@@ -1,1 +1,1 @@
-include <spur_gears/_head/spur-gears-header.scad>
+include <../spur_gears/_head/spur-gears-header.scad>

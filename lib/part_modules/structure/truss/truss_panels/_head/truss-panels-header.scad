@@ -4,7 +4,6 @@
 
 
 include <../square-truss-panel.scad>
-include <../quick-truss-panel.scad>
 include <../convex-edge-panel.scad>
 include <../concave-edge-panel.scad>
 include <../rectangle-truss-panel.scad>

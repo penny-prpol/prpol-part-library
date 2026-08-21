@@ -23,49 +23,38 @@ module block_angle(
     nut_width=5.5,
     nut_clearance=0.2,
 ){
-    octo = 2 * chamfer_depth;
     $fn = 30;
-    bodyHeight = height * 10;
+    body_height = height * 10;
 
     nut_circumscribed_diameter = nut_width / cos(30);
-    nutPocketWidth = nut_thickness + nut_clearance;
-    nutPocketLength = nut_width + nut_clearance;
-    nutPocketHeight = 5 + nut_circumscribed_diameter/2 + 1;
+    nut_pocket_width = nut_thickness + nut_clearance;
+    nut_pocket_length = nut_width + nut_clearance;
+    nut_pocket_height = 5 + nut_circumscribed_diameter/2 + 1;
 
     difference(){
         union(){
-            minkowski(){
-            
-                hull(){
-                    translate([0,0,chamfer_depth])
-                    cylinder(d = 10 - octo, h= bodyHeight - octo);
+            hull(){
+                global_chamfer_cylinder(d = 10, h = body_height, chamfer_depth = chamfer_depth);
 
-                    translate([(length1 - 1)*10 ,0,bodyHeight/2])
-                    cube([10 - octo,10 - octo,bodyHeight - octo], center=true);
-                }
-                global_octahedron(chamfer_depth);
+                translate([(length1 - 1)*10 - 5, -5, 0])
+                global_chamfer_cube([10, 10, body_height], chamfer_depth = chamfer_depth);
             }
             rotate(angle)
-            minkowski(){
-                
-                hull(){
-                    translate([0,0,chamfer_depth])
-                    cylinder(d = 10 - octo, h= bodyHeight - octo);
+            hull(){
+                global_chamfer_cylinder(d = 10, h = body_height, chamfer_depth = chamfer_depth);
 
-                    translate([(length2 - 1)*10 ,0,bodyHeight/2])
-                    cube([10 - octo,10 - octo,bodyHeight - octo], center=true);
-                }
-                global_octahedron(chamfer_depth);
+                translate([(length2 - 1)*10 - 5, -5, 0])
+                global_chamfer_cube([10, 10, body_height], chamfer_depth = chamfer_depth);
             }
         }
         //center hole
         translate([0,0, -1]) 
-        cylinder(d =  hole_diameter, h = bodyHeight + 2);
+        cylinder(d =  hole_diameter, h = body_height + 2);
 
         //holes along x axis
         for(i = [1 : length1 - 1]){
             translate([10 * i, 0 , -1])
-            cylinder(d =  hole_diameter, h = bodyHeight + 2);
+            cylinder(d =  hole_diameter, h = body_height + 2);
         }
 
         // vertical holes along radial arm
@@ -75,7 +64,7 @@ module block_angle(
                 10 * i * sin(angle),
                 -1]
             )
-            cylinder(d =  hole_diameter, h = bodyHeight + 2);
+            cylinder(d =  hole_diameter, h = body_height + 2);
 
         }
 
@@ -117,19 +106,19 @@ module block_angle(
         if(do_nut_pockets){
             // arm 1 nut pockets (opening -Y / leftward)
             for(j = [0 : height - 1]){
-                translate([(length1-1.5)*10 - nutPocketWidth/2,
+                translate([(length1-1.5)*10 - nut_pocket_width/2,
                             -5 - 1,
-                            5 + 10*j - nutPocketLength/2])
-                cube([nutPocketWidth, nutPocketHeight, nutPocketLength]);
+                            5 + 10*j - nut_pocket_length/2])
+                cube([nut_pocket_width, nut_pocket_height, nut_pocket_length]);
             }
 
             // arm 2 nut pockets (opening +Y / rightward in arm's local frame)
             rotate(angle)
             for(j = [0 : height - 1]){
-                translate([(length2-1.5)*10 - nutPocketWidth/2,
-                            5 - nutPocketHeight + 1,
-                            5 + 10*j - nutPocketLength/2])
-                cube([nutPocketWidth, nutPocketHeight, nutPocketLength]);
+                translate([(length2-1.5)*10 - nut_pocket_width/2,
+                            5 - nut_pocket_height + 1,
+                            5 + 10*j - nut_pocket_length/2])
+                cube([nut_pocket_width, nut_pocket_height, nut_pocket_length]);
             }
         }
     }

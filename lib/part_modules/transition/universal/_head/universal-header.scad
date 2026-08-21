@@ -1,7 +1,10 @@
 // ============================================================================
-// PRPOL HEADER - SINGLE ENTRY POINT
+// UNIVERSAL HEADER
 // ============================================================================
-// Everything else resolves through the include chain below.
+// Universal mounting parts: class-level parts that fit whole classes of
+// off-the-shelf components rather than specific boards.
 // ============================================================================
 
-include <lib/_head/lib-header.scad>
+include <../slot-plate.scad>
+include <../slot-bracket.scad>
+include <../spacer.scad>

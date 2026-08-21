@@ -25,7 +25,9 @@ jobs:
             # lines instead of the exit code.
             openscad --export-format=stl -o /tmp/prpol_check.stl "$file" \
               >/tmp/prpol_stdout.txt 2>/tmp/prpol_stderr.txt || true
-            if grep -q 'ERROR:' /tmp/prpol_stderr.txt; then
+            # Missing include files are only WARNINGS in OpenSCAD, so grep
+            # for them too.
+            if grep -q 'ERROR:\|Can.t open include file' /tmp/prpol_stderr.txt; then
               echo "FAIL $file"
               cat /tmp/prpol_stderr.txt
               failed="$failed $file"
@@ -42,7 +44,9 @@ jobs:
         run: |
           openscad --export-format=stl -o /tmp/prpol_full.stl prpol-header.scad \
             >/tmp/prpol_full_out.txt 2>/tmp/prpol_full_err.txt || true
-          if grep -q 'ERROR:' /tmp/prpol_full_err.txt; then
+          # Missing include files are only WARNINGS in OpenSCAD, so grep
+          # for them too.
+          if grep -q 'ERROR:\|Can.t open include file' /tmp/prpol_full_err.txt; then
             cat /tmp/prpol_full_err.txt
             exit 1
           fi
