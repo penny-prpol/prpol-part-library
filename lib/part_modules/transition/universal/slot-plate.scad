@@ -16,7 +16,7 @@ module slot_plate(
     plate_thickness = 5,
     plate_length = 11,          // Robot Core Default (units)
     plate_width = 6,            // Robot Core Default (units)
-    grid_hole_diameter = 3.3,
+    grid_hole_diameter = global_default_hole_diameter + 0.1,
     slot_width = 3.3,           // Width of adjustment slots
     slot_length = 12,            // Length of adjustment slots
     chamfer_depth = 0.6

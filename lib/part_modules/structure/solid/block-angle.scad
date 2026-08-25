@@ -16,11 +16,11 @@ module block_angle(
     length2 = 5,              // Length of second arm in PRPOL units
     angle = 45,               // Angle between arms (degrees)
     height = 1,               // Height in PRPOL units (1 unit = 10mm)
-    hole_diameter = 3.2,      // Diameter of mounting holes
+    hole_diameter = global_default_hole_diameter,      // Diameter of mounting holes
     chamfer_depth = 0.6,  
     do_nut_pockets = true,
     nut_thickness=2.5,
-    nut_width=5.5,
+    nut_width=global_default_nut_width,
     nut_clearance=0.2,
 ){
     $fn = 30;

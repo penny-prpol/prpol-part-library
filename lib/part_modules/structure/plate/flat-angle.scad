@@ -5,7 +5,7 @@ module flat_angle(
     length1=5,
     length2=5,
     plate_thickness=2.5,
-    hole_diameter= 3.2,
+    hole_diameter= global_default_hole_diameter,
     chamfer_depth = 0.75,
     hole_faces=15
 )

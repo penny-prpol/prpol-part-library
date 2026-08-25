@@ -1,6 +1,8 @@
 
 # no global variables in any .scad file in lib/ 
 
+- any necessary global variables are to be defined in global_basal_modules/internal/global-variables.scad. Global variables should be relevant to the 
+part system as a whole rather than any one specific part.
 - all variables must be inside a module definition. 
 - if a variable is defined outside a module definition, it will 
 automatically be global in scope no matter which .scad file it's in.

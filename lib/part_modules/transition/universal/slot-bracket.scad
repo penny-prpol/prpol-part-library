@@ -16,8 +16,8 @@
 
 module slot_bracket(
     slot_length = 8,
-    slot_width = 3.2,
-    nut_width=5.5,
+    slot_width = global_default_hole_diameter,
+    nut_width=global_default_nut_width,
     nut_clearance=0.2,
     overall_width = 10,
     slot_wall_offset = 3.5,

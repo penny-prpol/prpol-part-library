@@ -5,7 +5,7 @@
 // thruhole for the bolt, with a flat handle extending from the base.
 
 module nut_wrench(
-    nut_width = 5.7,          // M3 nut flat-to-flat width
+    nut_width = global_default_nut_width + 0.2,          // M3 nut flat-to-flat width
     nut_clearance = 0.3,      // Clearance for easy fit
     socket_depth = 3,         // Depth of hex pocket
     socket_wall = 1.5,        // Wall thickness around socket

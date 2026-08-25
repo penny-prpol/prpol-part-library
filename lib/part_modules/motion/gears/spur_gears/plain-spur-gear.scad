@@ -1,18 +1,21 @@
 // In Revision
 
+
 module plain_spur_gear(
     size = 5,
     thickness = 10,
-    axis_bore_diameter = 3.2,
+    axis_bore_diameter = global_default_hole_diameter,
     chamfer_depth = 2,
     nut_clearance = 0.1,
-    nut_width = 5.5,
+    nut_width = global_default_nut_width,
     nut_thickness = 2.25,
-    lock_bore_diameter = 3.2,
-    hub_diameter = 14,
+    nut_offset = 3.5,
+    lock_bore_diameter = global_default_hole_diameter,
+    hub_diameter = 17,
     rim_thickness = 8,
     spoke_count = 4,
-    spoke_width = 4
+    spoke_width = 7,
+    do_nut_pocket = true
 ){
     //DERIVED VALUES (NO TOUCHY)
     //main
@@ -61,19 +64,38 @@ difference(){
             cylinder(r1=0, r2=chamrad, h=chamrad);
         }
     }
-    rotate(floor(pitch_diameter/(2*spoke_count))*(360/pitch_diameter) + (360/pitch_diameter)/2){
+    if(do_nut_pocket == true && size > 1){
+        rotate(floor(pitch_diameter/(2*spoke_count))*(360/pitch_diameter) + (360/pitch_diameter)/2){
         translate([0,0,thickness/2]){
             rotate(90,[0,1,0]){
                 cylinder(h=100,d=lock_bore_diameter);
             }
         }
-        translate([2.2,-(nut_width+nut_clearance)/2, thickness-(thickness/2+nut_circumscribed_diameter/2)]){
+        translate([nut_offset,-(nut_width+nut_clearance)/2, thickness-(thickness/2+nut_circumscribed_diameter/2)]){
             cube([nut_thickness+nut_clearance,nut_width+nut_clearance,thickness/2+nut_circumscribed_diameter/2]);
         }
     }
+    }
+    
+    
+    //gridholes
+    if(size > 2){
+         for(i=[0:90:270]){
+            rotate(i){
+                for(j=[1:floor(size/2) - (1-(size%2)) ]){
+                    translate([j*10,0,0]){
+                        cylinder(h=100,d=3.2,center=true);
+                    }
+                }
+            }
+            
+        }
+    }
+   
     
     
 }
+
 }
 
 

@@ -14,7 +14,7 @@ module mini_servo_gear_bracket(
     servo_box_width = 12.11,
     servo_box_length = 22.53,
     mount_hole_diameter = 2.1,
-    grid_hole_diameter = 3.2,
+    grid_hole_diameter = global_default_hole_diameter,
     axle_grid_column = 3,
     axle_grid_row = 2,
     show_axle_position = false

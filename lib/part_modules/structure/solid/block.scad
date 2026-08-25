@@ -3,10 +3,10 @@
 module block(dimensions=[3,3,3],
             do_nut_pockets = true,
             nut_thickness=2.5,
-            nut_width=5.5,
+            nut_width=global_default_nut_width,
             nut_clearance=0.2,
             chamfer_depth=1.0,
-            hole_diameter=3.2,
+            hole_diameter=global_default_hole_diameter,
             hole_faces=20)
 {
    

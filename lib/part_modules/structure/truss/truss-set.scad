@@ -22,7 +22,7 @@ module truss_canon(
     slop=0.3,
     do_nut_pockets=true,
     nut_thickness=2.6,
-    nut_width=5.7,
+    nut_width= global_default_nut_width + 0.2,
     
     // Strut dimensions
     strut_legs_width=4,

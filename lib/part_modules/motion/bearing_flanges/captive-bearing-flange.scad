@@ -5,7 +5,7 @@ module captive_bearing_flange(
     bearing_thickness = 5.04,
     mount_style = "end",
     do_bore_body = true,
-    bore_body_hole_diameter = 3.2
+    bore_body_hole_diameter = global_default_hole_diameter
 ){
     wall_thickness = 2.5;
     surface_offset = 5.0;
@@ -18,7 +18,7 @@ module captive_bearing_flange(
     flange_thickness = 2.5;
     flange_end_radius = 4.0;
     
-    mount_hole_diameter = 3.2;
+    mount_hole_diameter = global_default_hole_diameter;
     main_cylinder_height = surface_offset + bearing_thickness + capture_thickness;
     
     //inner body parameters

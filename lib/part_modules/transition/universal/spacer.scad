@@ -8,7 +8,7 @@
 
 module spacer(
     outer_diameter = 5.5,
-    inner_diameter = 3.2,
+    inner_diameter = global_default_hole_diameter,
     height = 5
 ){
     difference(){

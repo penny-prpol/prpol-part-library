@@ -25,7 +25,7 @@ module arbitrary_flat(
     ],
     plate_thickness = 2.5,
     chamfer_depth = 0.75,
-    hole_diameter = 3.2,
+    hole_diameter = global_default_hole_diameter,
     hole_faces = 20
 ){
     row_count = len(layout);
