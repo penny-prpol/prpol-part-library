@@ -6,6 +6,17 @@ All notable changes to PRPOL are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-08-30
+
+### Added
+- Specialty catapult parts: `catapult_scoop()` and `catapult_projectile()`
+- Marble track parts promoted to the shipped library: `straight_marble_track()`,
+  `sinusoid_marble_track()`, `helix_marble_track()`
+- STL core library samplers for the catapult scoop and projectile
+
+### Changed
+- Marble track files no longer carry the `not tracked` marker
+
 ## [0.1.0] - 2026-08-24
 
 First versioned release. The library is pre-1.0: module names, parameters, and
