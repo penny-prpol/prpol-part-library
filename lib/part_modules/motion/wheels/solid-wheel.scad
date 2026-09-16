@@ -11,7 +11,6 @@ module solid_wheel(
     nut_offset = 3.5,
     hub_diameter = 18,
     spoke_count = 5,
-    spoke_count = 5,
     spoke_width = 4,
     echo_parameters = true
 ){

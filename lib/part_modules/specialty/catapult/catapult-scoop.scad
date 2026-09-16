@@ -6,7 +6,6 @@ module catapult_scoop(
     extra_margin = 1,
     straight_section_length = 25,
     scoop_extrude_radius = 50,
-    scoop_extrude_radius = 50,
     bolt_hole_diameter = global_default_hole_diameter,
     echo_parameters = true
 ){

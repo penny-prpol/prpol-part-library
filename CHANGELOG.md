@@ -43,6 +43,9 @@ All notable changes to PRPOL are documented here. The format follows
 - `solid_wheel()`: nut pocket moved further from the bore, matching the gears
 - Cylindrical chamfering improved in `nut_wrench()`
 - Sharp edges chamfered in `catapult_scoop`
+- Duplicate parameter definitions removed from `solid_wheel()`,
+  `catapult_scoop()`, and `block_angle()` — the duplicates were compile
+  errors that prevented those modules from rendering
 
 ## [0.2.0] - 2026-08-30
 
