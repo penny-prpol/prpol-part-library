@@ -9,5 +9,4 @@ include <../strut.scad>
 include <../hub.scad>
 include <../truss-set.scad>
 include <../truss_basal_modules/_head/truss-basal-modules-header.scad>
-include <../truss_panels/_head/truss-panels-header.scad>
 

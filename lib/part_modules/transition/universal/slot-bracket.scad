@@ -24,8 +24,12 @@ module slot_bracket(
     plate_thickness = 2.5,
     overall_height = 8,
     nut_ceiling_thickness = 2,
-    chamfer_depth = 0.75
+    chamfer_depth = 0.75,
+    echo_parameters = true
 ){
+    if (echo_parameters) {
+        echo(str("slot_bracket(slot_length=", slot_length, ", slot_width=", slot_width, ", nut_width=", nut_width, ", nut_clearance=", nut_clearance, ", overall_width=", overall_width, ", slot_wall_offset=", slot_wall_offset, ", plate_thickness=", plate_thickness, ", overall_height=", overall_height, ", nut_ceiling_thickness=", nut_ceiling_thickness, ", chamfer_depth=", chamfer_depth, ")"));
+    }
     nut_circumscribed_diameter = nut_width / cos(30);
 
     difference(){

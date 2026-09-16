@@ -19,8 +19,12 @@ module slot_plate(
     grid_hole_diameter = global_default_hole_diameter + 0.1,
     slot_width = 3.3,           // Width of adjustment slots
     slot_length = 12,            // Length of adjustment slots
-    chamfer_depth = 0.6
+    chamfer_depth = 0.6,
+    echo_parameters = true
 ){
+    if (echo_parameters) {
+        echo(str("slot_plate(plate_thickness=", plate_thickness, ", plate_length=", plate_length, ", plate_width=", plate_width, ", grid_hole_diameter=", grid_hole_diameter, ", slot_width=", slot_width, ", slot_length=", slot_length, ", chamfer_depth=", chamfer_depth, ")"));
+    }
     body_length = plate_length * 10;
     body_width = plate_width * 10;
 

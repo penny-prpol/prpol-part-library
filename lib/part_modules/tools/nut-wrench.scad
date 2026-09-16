@@ -14,25 +14,33 @@ module nut_wrench(
     handle_length = 60,       // Length of handle
     handle_width = 12,        // Width of handle
     handle_thickness = 5,     // Thickness of flat handle
-    chamfer_depth = 0.6
+    chamfer_depth = 0.6,
+    echo_parameters = true
 ){
+    if (echo_parameters) {
+        echo(str("nut_wrench(nut_width=", nut_width, ", nut_clearance=", nut_clearance, ", socket_depth=", socket_depth, ", socket_wall=", socket_wall, ", socket_height=", socket_height, ", thruhole_diameter=", thruhole_diameter, ", handle_length=", handle_length, ", handle_width=", handle_width, ", handle_thickness=", handle_thickness, ", chamfer_depth=", chamfer_depth, ")"));
+    }
     $fn = 30;
 
     nut_circumscribed = (nut_width + nut_clearance) / cos(30);
     socket_outer_d = nut_circumscribed + socket_wall * 2;
 
     difference(){
-        minkowski(){
-            union(){
-                // Socket cylinder
-                translate([0, 0, chamfer_depth])
-                cylinder(d = socket_outer_d - 2*chamfer_depth, h = socket_height - 2*chamfer_depth);
+        union(){
+            // Chamfered socket cylinder — bicone minkowski gives a
+            // uniform 45° chamfer all around both rims.
+            global_chamfer_cylinder(
+                d = socket_outer_d,
+                h = socket_height,
+                chamfer_depth = chamfer_depth
+            );
 
-                // Flat handle extending from base
-                translate([chamfer_depth, -socket_outer_d/2 + chamfer_depth, chamfer_depth])
-                cube([handle_length - 2*chamfer_depth, socket_outer_d - 2*chamfer_depth, handle_thickness - 2*chamfer_depth]);
-            }
-            global_octahedron(chamfer_depth);
+            // Chamfered flat handle extending from the base.
+            translate([0, -socket_outer_d / 2, 0])
+            global_chamfer_cube(
+                dimensions = [handle_length, socket_outer_d, handle_thickness],
+                chamfer_depth = chamfer_depth
+            );
         }
 
         // Hex pocket from the top

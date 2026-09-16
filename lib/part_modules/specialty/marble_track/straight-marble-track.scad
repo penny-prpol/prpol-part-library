@@ -4,8 +4,12 @@ module straight_marble_track(
     wall_thickness = 2,
     left_lip_placement_angle = 180,
     right_lip_placement_angle = 0,
-    mirrored = false
+    mirrored = false,
+    echo_parameters = true
 ){
+    if (echo_parameters) {
+        echo(str("straight_marble_track(inner_diameter=", inner_diameter, ", wall_thickness=", wall_thickness, ", left_lip_placement_angle=", left_lip_placement_angle, ", right_lip_placement_angle=", right_lip_placement_angle, ", mirrored=", mirrored, ")"));
+    }
     inner_radius = inner_diameter / 2;
     outer_diameter = inner_diameter + (2 * wall_thickness);
     outer_radius = outer_diameter / 2;

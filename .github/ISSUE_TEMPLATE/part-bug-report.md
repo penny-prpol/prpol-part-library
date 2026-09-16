@@ -7,7 +7,7 @@ labels: part-bug
 
 ## Which part?
 
-File name and module, e.g. `plate/flat.scad`, module `flat()`.
+File name and module, e.g. `plate/flat/flat.scad`, module `flat()`.
 
 ## What went wrong?
 

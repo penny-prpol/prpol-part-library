@@ -15,8 +15,12 @@ module block_frame(
     nut_clearance    = 0.2,
     chamfer_depth    = 1.0,
     hole_diameter    = global_default_hole_diameter,
-    hole_faces       = 20
+    hole_faces       = 20,
+    echo_parameters  = true
 ) {
+    if (echo_parameters) {
+        echo(str("block_frame(dimensions=", dimensions, ", frame_thickness=", frame_thickness, ", do_nut_pockets=", do_nut_pockets, ", nut_thickness=", nut_thickness, ", nut_width=", nut_width, ", nut_clearance=", nut_clearance, ", chamfer_depth=", chamfer_depth, ", hole_diameter=", hole_diameter, ", hole_faces=", hole_faces, ")"));
+    }
     body_width  = dimensions[0] * 10;
     body_length = dimensions[1] * 10;
     body_height = 10;  // h = 1, always 10mm tall

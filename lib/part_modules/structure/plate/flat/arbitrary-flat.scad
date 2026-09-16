@@ -13,7 +13,8 @@
 // run of "X" cells and one per maximal vertical run. Every cell is covered
 // by two overlapping pieces, so no piece edge ever lands on an interior
 // surface line: there are no V-grooves, and every true outer edge keeps the
-// standard chamfer.
+// standard chamfer. Small square plugs fill the chamfer dimples where run
+// pieces cross at interior grid corners with all four cells filled.
 
 
 module arbitrary_flat(
@@ -26,8 +27,12 @@ module arbitrary_flat(
     plate_thickness = 2.5,
     chamfer_depth = 0.75,
     hole_diameter = global_default_hole_diameter,
-    hole_faces = 20
+    hole_faces = 20,
+    echo_parameters = true
 ){
+    if (echo_parameters) {
+        echo(str("arbitrary_flat(layout=[...], plate_thickness=", plate_thickness, ", chamfer_depth=", chamfer_depth, ", hole_diameter=", hole_diameter, ", hole_faces=", hole_faces, ")"));
+    }
     row_count = len(layout);
     column_count = len(layout[0]);
 
@@ -65,7 +70,8 @@ module arbitrary_flat(
                     plate_thickness = plate_thickness,
                     chamfer_depth = chamfer_depth,
                     hole_diameter = hole_diameter,
-                    hole_faces = hole_faces
+                    hole_faces = hole_faces,
+                    echo_parameters = false
                 );
             }
         }
@@ -85,8 +91,31 @@ module arbitrary_flat(
                     plate_thickness = plate_thickness,
                     chamfer_depth = chamfer_depth,
                     hole_diameter = hole_diameter,
-                    hole_faces = hole_faces
+                    hole_faces = hole_faces,
+                    echo_parameters = false
                 );
+            }
+        }
+    }
+
+    // ── Dimple plugs ──────────────────────────────────────────────
+    // Where a horizontal and a vertical run piece cross at an interior
+    // grid corner with all four surrounding cells filled, their edge
+    // chamfers overlap and leave a dimple shaped like half of the
+    // chamfering octahedron.  A small square plug of plate height
+    // restores the surface.
+    plug = [2 * chamfer_depth, 2 * chamfer_depth, plate_thickness];
+
+    for (row_index = [1 : row_count - 1]) {
+        for (column_index = [1 : column_count - 1]) {
+            all_four_filled =
+                layout[row_index][column_index] == "X"
+                && layout[row_index - 1][column_index] == "X"
+                && layout[row_index][column_index - 1] == "X"
+                && layout[row_index - 1][column_index - 1] == "X";
+            if (all_four_filled) {
+                translate([column_index * 10, row_index * 10, plate_thickness / 2])
+                cube(plug, center = true);
             }
         }
     }

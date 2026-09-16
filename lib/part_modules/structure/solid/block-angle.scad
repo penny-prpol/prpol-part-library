@@ -21,8 +21,14 @@ module block_angle(
     do_nut_pockets = true,
     nut_thickness=2.5,
     nut_width=global_default_nut_width,
+    nut_thickness=2.5,
+    nut_width=global_default_nut_width,
     nut_clearance=0.2,
+    echo_parameters = true
 ){
+    if (echo_parameters) {
+        echo(str("block_angle(length1=", length1, ", length2=", length2, ", angle=", angle, ", height=", height, ", hole_diameter=", hole_diameter, ", chamfer_depth=", chamfer_depth, ", do_nut_pockets=", do_nut_pockets, ", nut_thickness=", nut_thickness, ", nut_width=", nut_width, ", nut_clearance=", nut_clearance, ")"));
+    }
     $fn = 30;
     body_height = height * 10;
 

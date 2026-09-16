@@ -15,9 +15,7 @@ module truss_clover_cam(base_radius, base_radius_addendum, cam_factor, height, p
     //we convert to cartesian coordinates using x = r*cos(theta), y = r*sin(theta)
     function cartesian_pair(theta) = [calc_radius(theta)*cos(theta), calc_radius(theta)*sin(theta)];
     //points is an array of xy coordinate pairs, used to make the polygon for the connection cam shape.
-    // In preview mode, use fewer points for faster display
-    preview_point_count = $preview ? min(point_count, 20) : point_count;
-    points = [for (a = [0: 360 / preview_point_count : 360-(360 / preview_point_count)]) cartesian_pair(a)];
+    points = [for (a = [0: 360 / point_count : 360-(360 / point_count)]) cartesian_pair(a)];
 
     linear_extrude(height=height, convexity=2)polygon(points);
 }

@@ -8,8 +8,14 @@ module helix_marble_track(
     cup_wall = 4,
     cup_height = 8,
     cup_floor = 4,
-    mirrored = false
+    mirrored = false,
+    separation_distance = 30,
+    do_support_piece = true,
+    echo_parameters = true
 ){
+    if (echo_parameters) {
+        echo(str("helix_marble_track(inner_diameter=", inner_diameter, ", wall_thickness=", wall_thickness, ", left_lip_placement_angle=", left_lip_placement_angle, ", right_lip_placement_angle=", right_lip_placement_angle, ", num_turns=", num_turns, ", cup_wall=", cup_wall, ", cup_height=", cup_height, ", cup_floor=", cup_floor, ", mirrored=", mirrored, ")"));
+    }
     inner_radius = inner_diameter / 2;
     outer_diameter = inner_diameter + (2 * wall_thickness);
     outer_radius = outer_diameter / 2;
@@ -195,7 +201,8 @@ module helix_marble_track(
 
         // ── piece 2: mount (translated -30 in Z to make it clear they are separate pieces.) ────────────────
 
-        translate([0, 0, -30])
+        if (do_support_piece) {
+        translate([0, 0, -1 * separation_distance])
         union(){
 
             // cup + upper arms: the cavity is subtracted last so arm hulls can't encroach into the pocket
@@ -294,6 +301,7 @@ module helix_marble_track(
             }
 
         }  // end piece 2 union
+        }  // end if (do_support_piece)
 
     }  // end union
 

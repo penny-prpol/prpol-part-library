@@ -1,4 +1,4 @@
-// In Revision
+
 
 module solid_wheel(
     size = 7,
@@ -8,10 +8,16 @@ module solid_wheel(
     nut_clearance = 0.1,
     nut_width = global_default_nut_width,
     nut_thickness = 2.25,
-    hub_diameter = 14,
+    nut_offset = 3.5,
+    hub_diameter = 18,
     spoke_count = 5,
-    spoke_width = 4
+    spoke_count = 5,
+    spoke_width = 4,
+    echo_parameters = true
 ){
+    if (echo_parameters) {
+        echo(str("solid_wheel(size=", size, ", thickness=", thickness, ", rim_radius=", rim_radius, ", axis_bore_diameter=", axis_bore_diameter, ", nut_clearance=", nut_clearance, ", nut_width=", nut_width, ", nut_thickness=", nut_thickness, ", nut_offset=", nut_offset, ", hub_diameter=", hub_diameter, ", spoke_count=", spoke_count, ", spoke_width=", spoke_width, ")"));
+    }
     //DERIVED VALUES (NO TOUCHY)
     torus_diameter = size * 10;
     inner_diameter = torus_diameter - 10;
@@ -20,6 +26,7 @@ module solid_wheel(
 
     $fn = 100;
 
+    render()
     difference(){
         union(){
             // Outer torus rim
@@ -54,11 +61,11 @@ module solid_wheel(
             rotate(90, [0, 1, 0])
             cylinder(h = size * 10, d = 3.2);
 
-            translate([2.2, -(nut_width + nut_clearance) / 2,
+            translate([nut_offset, -(nut_width + nut_clearance) / 2,
                        thickness - (thickness / 2 + nut_circumscribed_diameter / 2)]){
                 cube([nut_thickness + nut_clearance,
                       nut_width + nut_clearance,
-                      thickness / 2 + nut_circumscribed_diameter / 2]);
+                      thickness / 2 + nut_circumscribed_diameter / 2 + 50]);
             }
         }
     }

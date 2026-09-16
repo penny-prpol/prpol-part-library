@@ -1,11 +1,3 @@
-include <../arbitrary-flat.scad>
-include <../bin.scad>
-include <../cee.scad>
-include <../corner.scad>
-include <../flat.scad>
-include <../flat-angle.scad>
-include <../flat-frame.scad>
-include <../sofa.scad>
-include <../tube.scad>
-include <../vee.scad>
+include <../shell/_head/shell-header.scad>
+include <../flat/_head/flat-header.scad>
 

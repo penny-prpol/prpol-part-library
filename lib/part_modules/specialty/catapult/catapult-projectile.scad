@@ -2,8 +2,12 @@
 
 module catapult_projectile(
     diameter = 25,
-    flatcut_height = 1.2
+    flatcut_height = 1.2,
+    echo_parameters = true
 ){
+    if (echo_parameters) {
+        echo(str("catapult_projectile(diameter=", diameter, ", flatcut_height=", flatcut_height, ")"));
+    }
     $fn = 60;
 
     difference(){

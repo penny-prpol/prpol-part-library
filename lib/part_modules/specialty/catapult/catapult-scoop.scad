@@ -6,15 +6,20 @@ module catapult_scoop(
     extra_margin = 1,
     straight_section_length = 25,
     scoop_extrude_radius = 50,
-    bolt_hole_diameter = global_default_hole_diameter
+    scoop_extrude_radius = 50,
+    bolt_hole_diameter = global_default_hole_diameter,
+    echo_parameters = true
 ){
+    if (echo_parameters) {
+        echo(str("catapult_scoop(projectile_diameter=", projectile_diameter, ", extra_margin=", extra_margin, ", straight_section_length=", straight_section_length, ", scoop_extrude_radius=", scoop_extrude_radius, ", bolt_hole_diameter=", bolt_hole_diameter, ")"));
+    }
     $fn = 50;
 
     inner_scoop_d = projectile_diameter + extra_margin;
     outer_scoop_d = inner_scoop_d + 8;
     overall_height = outer_scoop_d - 4;
-
-    union(){
+    difference(){
+        union(){
         // scoop
         translate([0, 0, overall_height / 2])
         difference(){
@@ -32,9 +37,11 @@ module catapult_scoop(
             translate([-100, -100, overall_height / 2]) cube([200, 200, 200]);
             translate([-100, -100, -200 - overall_height / 2]) cube([200, 200, 200]);
             // pie slicing cuts
-            translate([-200, -100, -100]) cube([200, 200, 200]);
+            translate([-200, -100, -100]) cube([201, 200, 200]);
             translate([0, -200, -100]) cube([200, 200, 200]);
             rotate(45) translate([0, 0, -100]) cube([200, 200, 200]);
+
+            
         }
 
         // straight end-section
@@ -54,9 +61,9 @@ module catapult_scoop(
         }
 
         // attaching block
-        translate([scoop_extrude_radius, -10, 0])
+        translate([scoop_extrude_radius - 1, -10, 0])
         difference(){
-            cube([20, 10, overall_height]);
+            global_chamfer_cube([21, 11, overall_height]);
             translate([5, -15, overall_height / 2 - 5])
                 rotate(90, [-1, 0, 0])
                 cylinder(h = 100, d = bolt_hole_diameter);
@@ -65,4 +72,9 @@ module catapult_scoop(
                 cylinder(h = 100, d = bolt_hole_diameter);
         }
     }
+    //end chamfering cube
+            translate([0,48,-1])
+            cube([22,10,50]);
+    }
+    
 }

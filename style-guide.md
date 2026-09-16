@@ -68,12 +68,15 @@ prpol-part-library/
         ├── _head/...
         ├── structure/
         │   ├── _head/structure-header.scad
-        │   ├── plate/         ← part files live flat in their folder
+        │   ├── plate/
+        │   │   ├── shell/    ← shell-shaped plates (bin, cee, vee, corner,
+        │   │   │                sofa, tube)
+        │   │   └── flat/     ← flat plates (flat, flat_angle, flat_frame,
+        │   │                    arbitrary_flat)
         │   └── truss/
         │       ├── _head/truss-header.scad
-        │       ├── truss_basal_modules/  ← LOCAL basal modules used only by
-        │       │                             truss parts (connection pocket)
-        │       └── truss_panels/   ← subfolders only when parts are grouped
+        │       └── truss_basal_modules/  ← LOCAL basal modules used only by
+        │                                     truss parts (connection pocket)
         ├── motion/
         ├── transition/
         ├── specialty/
@@ -113,9 +116,14 @@ Example:
 ```
 plate/
 ├── _head/
-│   └── plate-header.scad       # include <../flat.scad> ... include <../vee.scad>
-├── flat.scad
-└── vee.scad
+│   └── plate-header.scad        # includes the shell/ and flat/ headers
+├── shell/
+│   ├── _head/shell-header.scad  # include <../bin.scad> ... include <../tube.scad>
+│   ├── bin.scad
+│   └── vee.scad
+└── flat/
+    ├── _head/flat-header.scad   # include <../flat.scad> ... include <../arbitrary-flat.scad>
+    └── flat.scad
 ```
 
 ## Include paths

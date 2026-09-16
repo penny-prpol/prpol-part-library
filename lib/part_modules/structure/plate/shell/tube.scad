@@ -1,6 +1,9 @@
 // In Revision
 
-module tube(dimensions=[3,3,3], plate_thickness=2.5, chamfer_depth=0.75,hole_diameter=global_default_hole_diameter,hole_faces=15){
+module tube(dimensions=[3,3,3], plate_thickness=2.5, chamfer_depth=0.75,hole_diameter=global_default_hole_diameter,hole_faces=15,echo_parameters=true){
+    if (echo_parameters) {
+        echo(str("tube(dimensions=", dimensions, ", plate_thickness=", plate_thickness, ", chamfer_depth=", chamfer_depth, ", hole_diameter=", hole_diameter, ", hole_faces=", hole_faces, ")"));
+    }
     bodyWidth = dimensions[0] * 10 + 2* plate_thickness;
     bodyLength = dimensions[1] * 10 + 2* plate_thickness;
     bodyHeight = dimensions[2] * 10;

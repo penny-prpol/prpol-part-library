@@ -6,8 +6,12 @@
 //gear train mounted on the same grid.
 
 module tt_motor_plate_bracket(
-    plate_thickness = 5
+    plate_thickness = 5,
+    echo_parameters = true
 ){
+    if (echo_parameters) {
+        echo(str("tt_motor_plate_bracket(plate_thickness=", plate_thickness, ")"));
+    }
     //Two m3 screws are put in the mount holes and calipers are placed
     //outside these two screws, effectively measuring the hole spacing
     //plus half an m3 screw diameter plus half an m3 screw diameter again.

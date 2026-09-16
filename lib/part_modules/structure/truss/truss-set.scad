@@ -40,9 +40,13 @@ module truss_canon(
     // Generation flags - false by default, each part is opt-in
     generate_hub=false,
     generate_leg_strut=false,
-    generate_hyp_strut=false
+    generate_hyp_strut=false,
+    echo_parameters = true
 )
 {
+    if (echo_parameters) {
+        echo(str("truss_canon(cube_width=", cube_width, ", connection_depth=", connection_depth, ", slop=", slop, ", do_nut_pockets=", do_nut_pockets, ", nut_thickness=", nut_thickness, ", nut_width=", nut_width, ", strut_legs_width=", strut_legs_width, ", strut_toes_width=", strut_toes_width, ", strut_thickness=", strut_thickness, ", strut_body_width=", strut_body_width, ", leg_separation=", leg_separation, ", leg_separation_depth=", leg_separation_depth, ", cylinder_faces=", cylinder_faces, ", strut_base_radius_addendum=", strut_base_radius_addendum, ", center_to_center=", center_to_center, ", generate_hub=", generate_hub, ", generate_leg_strut=", generate_leg_strut, ", generate_hyp_strut=", generate_hyp_strut, ")"));
+    }
     side_length = cube_width * tan(22.5);
     layer_cutoff = side_length / sqrt(2);
     leg_strut_length = center_to_center - cube_width + (2 * connection_depth);
@@ -101,17 +105,20 @@ module truss_canon(
 // visualization - truss_canon() is the source of truth for dimensions.
 // ============================================================================
 
-module truss_set(){
+module truss_set(echo_parameters = true){
+    if (echo_parameters) {
+        echo("truss_set()");
+    }
     // Display-only offsets, matching canonical defaults (hub half-width 10,
     // strut half-thickness 1.5).
     translate([0, 0, 10])
-    hub();
+    hub(echo_parameters=false);
 
     translate([30, 0, 1.5])
     rotate(90, [1, 0, 0])
-    leg_strut();
+    leg_strut(echo_parameters=false);
 
     translate([40, 0, 1.5])
     rotate(90, [1, 0, 0])
-    hyp_strut();
+    hyp_strut(echo_parameters=false);
 }

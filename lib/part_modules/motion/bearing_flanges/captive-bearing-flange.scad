@@ -3,10 +3,14 @@ module captive_bearing_flange(
     bearing_outer_diameter = 16.0,
     bearing_inner_diameter = 8.0,
     bearing_thickness = 5.04,
-    mount_style = "end",
+    mount_style = "center",
     do_bore_body = true,
-    bore_body_hole_diameter = global_default_hole_diameter
+    bore_body_hole_diameter = global_default_hole_diameter,
+    echo_parameters = true
 ){
+    if (echo_parameters) {
+        echo(str("captive_bearing_flange(bearing_outer_diameter=", bearing_outer_diameter, ", bearing_inner_diameter=", bearing_inner_diameter, ", bearing_thickness=", bearing_thickness, ", mount_style=\"", mount_style, "\", do_bore_body=", do_bore_body, ", bore_body_hole_diameter=", bore_body_hole_diameter, ")"));
+    }
     wall_thickness = 2.5;
     surface_offset = 5.0;
     capture_thickness = 2.0;

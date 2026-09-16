@@ -1,10 +1,9 @@
-// Mini servo gear bracket.
+// Mini servo down bracket.
 //
-// Grid plate with a raised block that mounts a mini servo to the PRPOL
-// grid (defaults to a 4x4 plate), with cutouts that leave room for a
-// gear riding on the servo output shaft (see mini-servo-gear.scad).
+// Grid plate that mounts a mini servo to the PRPOL grid (defaults to a
+// 4x4 plate).
 
-module mini_servo_gear_bracket(
+module mini_servo_down_bracket(
     grid_columns = 4,
     grid_rows = 4,
     plate_thickness = 5,
@@ -17,8 +16,11 @@ module mini_servo_gear_bracket(
     grid_hole_diameter = global_default_hole_diameter,
     axle_grid_column = 3,
     axle_grid_row = 2,
-    show_axle_position = false
+    echo_parameters = true
 ){
+    if (echo_parameters) {
+        echo(str("mini_servo_down_bracket(grid_columns=", grid_columns, ", grid_rows=", grid_rows, ", plate_thickness=", plate_thickness, ", screw_spacing=", screw_spacing, ", axle_position=", axle_position, ", servo_box_width=", servo_box_width, ", servo_box_length=", servo_box_length, ", mount_hole_diameter=", mount_hole_diameter, ", grid_hole_diameter=", grid_hole_diameter, ", axle_grid_column=", axle_grid_column, ", axle_grid_row=", axle_grid_row, ")"));
+    }
     $fn = 15;
 
     cutout_width = servo_box_width + 1;
@@ -27,27 +29,10 @@ module mini_servo_gear_bracket(
     axle_x_position = (axle_grid_column * 10) - 5;
     axle_y_position = (axle_grid_row * 10) - 5;
 
-    if (show_axle_position == true) {
-        translate([axle_x_position, axle_y_position, 0]) {
-            color("red")
-            cylinder(h=100, d=2, center=true);
-        }
-    }
-
     difference(){
         union(){
             cube([grid_columns*10, grid_rows*10, plate_thickness]);
             translate([0, 20, 0]) cube([40, 20, 20]);
-        }
-
-        translate([-10, 30, -10])
-        cube([60, 20, 50]);
-
-        translate([20, 0, plate_thickness])
-        cube([30, 60, 60]);
-
-        translate([-1, axle_y_position-cutout_width/2, plate_thickness]){
-            cube([100, cutout_width, 100]);
         }
 
         for (i = [0:1]) {

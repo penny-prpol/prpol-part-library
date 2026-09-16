@@ -7,9 +7,13 @@ module flat_angle(
     plate_thickness=2.5,
     hole_diameter= global_default_hole_diameter,
     chamfer_depth = 0.75,
-    hole_faces=15
+    hole_faces=15,
+    echo_parameters = true
 )
 {
+    if (echo_parameters) {
+        echo(str("flat_angle(angle=", angle, ", length1=", length1, ", length2=", length2, ", plate_thickness=", plate_thickness, ", hole_diameter=", hole_diameter, ", chamfer_depth=", chamfer_depth, ", hole_faces=", hole_faces, ")"));
+    }
     // L-shaped flat bracket with holes along the length
     // angle: the angle between the two arms (in degrees)
     // length1: length of the first arm (in units)

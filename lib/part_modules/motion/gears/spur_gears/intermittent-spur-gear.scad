@@ -17,12 +17,17 @@ module intermittent_spur_gear(
     rim_thickness = 8,
     spoke_count = 4,
     spoke_width = 7,
-    do_nut_pocket = true
+    do_nut_pocket = true,
+    echo_parameters = true
 ){
+    if (echo_parameters) {
+        echo(str("intermittent_spur_gear(size=", size, ", missing_teeth=", missing_teeth, ", thickness=", thickness, ", axis_bore_diameter=", axis_bore_diameter, ", chamfer_depth=", chamfer_depth, ", nut_clearance=", nut_clearance, ", nut_width=", nut_width, ", nut_thickness=", nut_thickness, ", nut_offset=", nut_offset, ", lock_bore_diameter=", lock_bore_diameter, ", lock_screw_cap_diameter=", lock_screw_cap_diameter, ", hub_diameter=", hub_diameter, ", rim_thickness=", rim_thickness, ", spoke_count=", spoke_count, ", spoke_width=", spoke_width, ", do_nut_pocket=", do_nut_pocket, ")"));
+    }
     pitch_diameter = size*10;
     cutout_angle = missing_teeth * 360 / (size*10);
     teeth_cutter_points = [[0,0], for(a = [0:1:cutout_angle]) [size * 20 * cos(a), size * 20 * sin(a)] ];
 
+    render()
     difference(){
         // Full plain gear (spokes, chamfers, nut pocket, grid holes).
         plain_spur_gear(
@@ -39,7 +44,8 @@ module intermittent_spur_gear(
             rim_thickness = rim_thickness,
             spoke_count = spoke_count,
             spoke_width = spoke_width,
-            do_nut_pocket = do_nut_pocket
+            do_nut_pocket = do_nut_pocket,
+            echo_parameters = false
         );
 
         //missing teeth cutout

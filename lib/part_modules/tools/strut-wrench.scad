@@ -13,8 +13,12 @@ module strut_wrench(
     handle_width = 5,         // Width of the handle
     mouth_radius = 1,         // Rounding on mouth entrance edges
     body_height = 50,         // body_height
-    chamfer_depth = 0.8
+    chamfer_depth = 0.8,
+    echo_parameters = true
 ){
+    if (echo_parameters) {
+        echo(str("strut_wrench(mouth_width=", mouth_width, ", mouth_depth=", mouth_depth, ", body_length=", body_length, ", head_length=", head_length, ", head_width=", head_width, ", handle_width=", handle_width, ", mouth_radius=", mouth_radius, ", body_height=", body_height, ", chamfer_depth=", chamfer_depth, ")"));
+    }
     $fn = 30;
 
     minkowski(){

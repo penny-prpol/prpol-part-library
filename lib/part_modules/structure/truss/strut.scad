@@ -7,12 +7,18 @@
 // from truss_canon(); these modules take no parameters.
 // ============================================================================
 
-module hyp_strut(){
-  truss_canon(generate_hyp_strut=true);
+module hyp_strut(echo_parameters = true){
+  if (echo_parameters) {
+    echo("hyp_strut()");
+  }
+  truss_canon(generate_hyp_strut=true, echo_parameters=false);
 }
 
-module leg_strut(){
-  truss_canon(generate_leg_strut=true);
+module leg_strut(echo_parameters = true){
+  if (echo_parameters) {
+    echo("leg_strut()");
+  }
+  truss_canon(generate_leg_strut=true, echo_parameters=false);
 }
 
 // ============================================================================
@@ -39,7 +45,7 @@ module abstract_strut(
        
             //bottom contact cylinder
             //cylinder(d = strut_toes_width, h = 1.5, $fn = cylinder_faces); 
-            clover_cam(base_radius = strut_toes_width/2,
+            truss_clover_cam(base_radius = strut_toes_width/2,
                   base_radius_addendum = base_radius_addendum, 
                   cam_factor=0.25,
                   height=1.5,

@@ -1,8 +1,11 @@
-// In Revision
 
-module corner(dimensions=[3,3,3], plate_thickness=2.5, chamfer_depth=0.75,hole_diameter=global_default_hole_diameter,hole_faces=15){
-    bodyWidth = dimensions[0] * 10 + plate_thickness;
-    bodyLength = dimensions[1] * 10 + plate_thickness;
+
+module bin(dimensions=[3,3,3], plate_thickness=2.5, chamfer_depth=0.75,hole_diameter=global_default_hole_diameter,hole_faces=15,echo_parameters=true){
+    if (echo_parameters) {
+        echo(str("bin(dimensions=", dimensions, ", plate_thickness=", plate_thickness, ", chamfer_depth=", chamfer_depth, ", hole_diameter=", hole_diameter, ", hole_faces=", hole_faces, ")"));
+    }
+    bodyWidth = dimensions[0] * 10 + plate_thickness * 2;
+    bodyLength = dimensions[1] * 10 + plate_thickness * 2;
     bodyHeight = dimensions[2] * 10 + plate_thickness;
     bodyDims = [bodyWidth,bodyLength,bodyHeight];
 
@@ -10,7 +13,7 @@ module corner(dimensions=[3,3,3], plate_thickness=2.5, chamfer_depth=0.75,hole_d
     difference(){
         global_chamfer_cube(bodyDims,chamfer_depth);
         translate([plate_thickness,plate_thickness,plate_thickness]){
-            cube([dimensions[0]*15,dimensions[1]*15,dimensions[2]*15]);
+            cube([dimensions[0]*10,dimensions[1]*10,dimensions[2]*15]);
         }
         
         for(i = [0:dimensions[0]-1]){

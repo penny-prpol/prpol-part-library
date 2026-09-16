@@ -15,8 +15,12 @@ module plain_spur_gear(
     rim_thickness = 8,
     spoke_count = 4,
     spoke_width = 7,
-    do_nut_pocket = true
+    do_nut_pocket = true,
+    echo_parameters = true
 ){
+    if (echo_parameters) {
+        echo(str("plain_spur_gear(size=", size, ", thickness=", thickness, ", axis_bore_diameter=", axis_bore_diameter, ", chamfer_depth=", chamfer_depth, ", nut_clearance=", nut_clearance, ", nut_width=", nut_width, ", nut_thickness=", nut_thickness, ", nut_offset=", nut_offset, ", lock_bore_diameter=", lock_bore_diameter, ", hub_diameter=", hub_diameter, ", rim_thickness=", rim_thickness, ", spoke_count=", spoke_count, ", spoke_width=", spoke_width, ", do_nut_pocket=", do_nut_pocket, ")"));
+    }
     //DERIVED VALUES (NO TOUCHY)
     //main
     pitch_diameter = size*10;
@@ -35,6 +39,7 @@ module plain_spur_gear(
 
 //The meat of the codes:
 
+render()
 difference(){
     spur_gear (module_size=1, tooth_number=size*10, width=thickness, bore=axis_bore_diameter, pressure_angle=25, helix_angle=0, optimized=false);
     if(size > 3){

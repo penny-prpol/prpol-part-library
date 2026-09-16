@@ -8,10 +8,14 @@
 // from truss_canon(); the only thing to adjust here is nut pockets.
 // ============================================================================
 
-module hub(do_nut_pockets=true){
+module hub(do_nut_pockets=true, echo_parameters = true){
+  if (echo_parameters) {
+    echo(str("hub(do_nut_pockets=", do_nut_pockets, ")"));
+  }
   truss_canon(
     do_nut_pockets=do_nut_pockets,
-    generate_hub=true
+    generate_hub=true,
+    echo_parameters=false
   );
 }
 

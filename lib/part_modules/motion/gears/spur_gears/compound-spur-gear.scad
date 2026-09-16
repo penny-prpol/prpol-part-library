@@ -17,10 +17,15 @@ module compound_spur_gear(
     hub_diameter = 17,
     rim_thickness = 8,
     spoke_count = 4,
-    spoke_width = 7
+    spoke_width = 7,
+    echo_parameters = true
 ){
+    if (echo_parameters) {
+        echo(str("compound_spur_gear(size1=", size1, ", size2=", size2, ", thickness1=", thickness1, ", thickness2=", thickness2, ", axis_bore_diameter=", axis_bore_diameter, ", chamfer_depth=", chamfer_depth, ", nut_clearance=", nut_clearance, ", nut_width=", nut_width, ", nut_thickness=", nut_thickness, ", nut_offset=", nut_offset, ", lock_bore_diameter=", lock_bore_diameter, ", hub_diameter=", hub_diameter, ", rim_thickness=", rim_thickness, ", spoke_count=", spoke_count, ", spoke_width=", spoke_width, ")"));
+    }
     // Main gear from plain_spur_gear (spokes, chamfers, nut pocket, grid
     // holes), then the small gear stacked on top.
+    render()
     union(){
         translate([0,0,thickness1])
         rotate(180,[1,0,0])
@@ -38,7 +43,8 @@ module compound_spur_gear(
             rim_thickness = rim_thickness,
             spoke_count = spoke_count,
             spoke_width = spoke_width,
-            do_nut_pocket = true
+            do_nut_pocket = true,
+            echo_parameters = false
         );
         translate([0, 0, thickness1])
         plain_spur_gear(
@@ -55,7 +61,8 @@ module compound_spur_gear(
             rim_thickness = rim_thickness,
             spoke_count = spoke_count,
             spoke_width = spoke_width,
-            do_nut_pocket = false
+            do_nut_pocket = false,
+            echo_parameters = false
         );
     }
 }

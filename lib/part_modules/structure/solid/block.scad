@@ -7,8 +7,12 @@ module block(dimensions=[3,3,3],
             nut_clearance=0.2,
             chamfer_depth=1.0,
             hole_diameter=global_default_hole_diameter,
-            hole_faces=20)
+            hole_faces=20,
+            echo_parameters=true)
 {
+    if (echo_parameters) {
+        echo(str("block(dimensions=", dimensions, ", do_nut_pockets=", do_nut_pockets, ", nut_thickness=", nut_thickness, ", nut_width=", nut_width, ", nut_clearance=", nut_clearance, ", chamfer_depth=", chamfer_depth, ", hole_diameter=", hole_diameter, ", hole_faces=", hole_faces, ")"));
+    }
    
 
 $fn=hole_faces;
