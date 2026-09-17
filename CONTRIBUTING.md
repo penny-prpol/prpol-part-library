@@ -5,7 +5,7 @@ library of parametric, 3D-printable robot parts written in OpenSCAD.
 
 ## Ways to contribute
 
-- **Request a part** — open a [Part Request](https://github.com/USERNAME/prpol-part-library/issues/new?choose=a-template) issue. Good requests get designed faster.
+- **Submit an idea for a new part** — open a [Part Request](https://github.com/USERNAME/prpol-part-library/issues/new?choose=a-template) issue. 
 - **Report a problem with a part** — use the [Part Bug Report] issue template.
 - **Contribute a part or fix** — see the workflow below.
 
@@ -14,12 +14,13 @@ library of parametric, 3D-printable robot parts written in OpenSCAD.
 1. **Fork** this repository and create a branch for your work.
 2. Write your part as a single module in a new file under
    `lib/part_modules/<category>/<subcategory>/`.
-3. Follow the conventions in [AGENTS.md](AGENTS.md) — in short:
-   - Files are kebab-case (`dc-motor-130-down-bracket.scad`),
-     modules are snake_case (`dc_motor_130_down_bracket`).
-   - Only module definitions — never top-level module calls.
+3. Follow the conventions in [STYLEGUIDE.md](STYLEGUIDE.md) — in short:
+   - File names are kebab-case e.g. (`dc-motor-130-down-bracket.scad`),
+   - Module names are snake_case e.g.  (`dc_motor_130_down_bracket()`).
+   - Variable names are snake_case e.g. (`hub_diameter`) .
    - Human-readable variable names, no abbreviations.
-   - Prefer `rotate(angle, vector)` over `rotate([a,b,c])`.
+   - Only module definitions, never module calls. The .scad files in lib/ are for defining modules and should never generate 
+   geometry by themselves.
    - Add your new file to the matching `*-header.scad` file.
 4. Test your part locally:
    ```

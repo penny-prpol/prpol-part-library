@@ -1,52 +1,55 @@
 
-# no global variables in any .scad file in lib/ 
+# PRPOL Style Guide
 
-- any necessary global variables are to be defined in global_basal_modules/internal/global-variables.scad. Global variables should be relevant to the 
-part system as a whole rather than any one specific part.
-- all variables must be inside a module definition. 
-- if a variable is defined outside a module definition, it will 
-automatically be global in scope no matter which .scad file it's in.
+## Variables
 
-# no module calls in any .scad file in lib/
+- All variables live inside module definitions. A variable defined outside a
+  module definition is automatically global in scope, no matter which .scad
+  file it's in.
+- The only shared global values are defined in
+  `lib/global_basal_modules/internal/global-variables.scad`, and they must be
+  relevant to the part system as a whole rather than any one specific part.
 
-- module definitions only, no module calls. 
-- use an "endpoint" .scad file that includes prpol-header.scad,
-e.g. my-first-project.scad to call modules. 
+## Naming
 
-# case and abbreviation conventions
+- `.scad` file names are kebab-case; folder names, variable names, and module
+  names are snake_case. No capitalization.
+- Avoid abbreviations with folder, file, and variable names.
 
-- .scad file names are in kebab-case, no capitalization
+  example:
 
-- folder names are in snake_case, no capitalization
-- variable names are in snake_case, no capitalization
-- module names are in snake_case, no capitalization
+  BAD:        `circle_d = 3;`
+  BETTER:     `circle_diameter = 3;`
 
-- avoid abbreviation or abstraction with folder, file, and variable names.
+- Prefer `rotate(angle, vector)` over `rotate([a,b,c])`.
 
-example:
+## Formatting
 
-BAD:        circle_d = 3; 
-BETTER:     circle_diameter = 3;
+- Manage line length by taking advantage of OpenSCAD's curly-bracket language
+  syntax.
 
-- there are much better ways to manage line length, most notably by taking 
-advantage of openscad's typical curly-bracket language syntax.
+  example:
 
-example:
+  BAD:    `cube([such_and_such + 7, other_thing + something_else, yet_another / 2]);`
 
-BAD:    cube([such_and_such + 7, other_thing + something_else, yet_another / 2]);
+  BETTER:
+  ```
+  cube(
+      [
+          such_and_such + 7,
+          other_thing + something_else,
+          yet_another / 2
+      ]
+  );
+  ```
 
-BETTER: cube(
-            [
-                such_and_such + 7,
-                other_thing + something_else,
-                yet_another / 2
-            ]
-        );
+  BAD: `translate(...)cube(...);`
 
-BAD: translate(...)cube(...);
-
-BETTER: translate(...)
-        cube(...);
+  BETTER:
+  ```
+  translate(...)
+  cube(...);
+  ```
 
 
 
@@ -105,11 +108,18 @@ prpol-part-library/
   `header.scad`.
 - `_head/` folders are also a good home for `.md` documentation files
   (e.g. `truss/_head/TRUSS-README.md`). Keep docs close to the code they describe.
+- **Only header files contain `include` statements** — module files never do.
+  Everything resolves through the `prpol-header.scad` chain. The only exception
+  is third-party vendor code.
 - A header includes only:
   - the header files of its direct child folders, and
   - its own sibling module files (via `../`).
 - Headers chain one level at a time. The root `prpol-header.scad` is the only
   entry point, and everything must be reachable from it.
+- Paths resolve relative to the file containing the `include` line:
+  - same folder → `include <flat.scad>`
+  - one level up → `include <../flat.scad>`
+  - child folder's header → `include <truss/_head/truss-header.scad>`
 
 Example:
 
@@ -125,25 +135,6 @@ plate/
     ├── _head/flat-header.scad   # include <../flat.scad> ... include <../arbitrary-flat.scad>
     └── flat.scad
 ```
-
-## Include paths
-
-**Only header files contain `include` statements** — module files never do.
-Everything resolves through the `prpol-header.scad` chain. The only exceptions
-are third-party vendor code.
-
-Paths resolve relative to the file containing the `include` line:
-
-- same folder → `include <flat.scad>`
-- one level up → `include <../flat.scad>`
-- child folder's header → `include <truss/_head/truss-header.scad>`
-
-## Naming
-
-- Files: kebab-case (`dc-motor-130-down-bracket.scad`)
-- Modules: snake_case (`dc_motor_130_down_bracket`)
-- Human-readable names only — no abbreviations.
-- Prefer `rotate(angle, vector)` over `rotate([a,b,c])`.
 
 ## Module rules
 
